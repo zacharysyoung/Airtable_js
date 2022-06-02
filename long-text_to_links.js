@@ -9,13 +9,14 @@ create a link to a new-or-existing destination record via the
 destination's _link field_.`,
 );
 
-const SRC_TBL = await input.tableAsync('Select source table');
-const SRC_TXT_FLD = await input.fieldAsync('Select source text field', SRC_TBL);
-const DST_TBL = await input.tableAsync('Select destination table');
+const SRC_TBL      = await input.tableAsync('Select source table');
+const SRC_TXT_FLD  = await input.fieldAsync('Select source text field', SRC_TBL);
+const DST_TBL      = await input.tableAsync('Select destination table');
 const DST_LINK_FLD = await input.fieldAsync('Select destination link field', DST_TBL);
 
 async function main() {
-    // All line items will be normalized to prevent small differences in casing/spacing/etc showing up multiple times as destination records
+    // All line items will be normalized to avoid small differences in casing/spacing/etc creating "unique" (but really) duplicate destination records
+
     const normalLineItemRecordObjMap = {};
 
     const srcQuery = await SRC_TBL.selectRecordsAsync({ fields: [ SRC_TXT_FLD ] });
@@ -40,19 +41,29 @@ async function main() {
 
     const dstQuery = await DST_TBL.selectRecordsAsync({ fields: [] });
 
-    // Not documented, but seems like a good way to get the "primary field" for any view or non-view; otherwise, ask user directly
+    // Not documented, but a good enough way to get the "primary field" for any view or non-view; if this breaks fall back to asking the user directly
     const dstPrimaryField = DST_TBL.fields[0];
 
+    // Map destination record's ID to its normal name
     const dstRecordNormalNameIdMap = {};
     for (const record of dstQuery.records) {
         const normalName = normalize(record.name);
         dstRecordNormalNameIdMap[normalName] = record.id;
     }
 
-    // First, create new records
     const dstNewRecords = [];
+    const dstUpdateRecords = [];
+
     for (const [ normalLineItem, recordObj ] of Object.entries(normalLineItemRecordObjMap)) {
-        if (!(normalLineItem in dstRecordNormalNameIdMap)) {
+        if (normalLineItem in dstRecordNormalNameIdMap) {
+            const dstRecordID = dstRecordNormalNameIdMap[normalLineItem];
+            dstUpdateRecords.push({
+                id: dstRecordID,
+                fields: {
+                    [DST_LINK_FLD.id]: recordObj.records,
+                },
+            });
+        } else {
             dstNewRecords.push({
                 fields: {
                     [dstPrimaryField.name]: recordObj.lineItem,
@@ -63,21 +74,6 @@ async function main() {
     }
 
     await batchCreate(dstNewRecords);
-
-    // Then, update existing records
-    const dstUpdateRecords = [];
-    for (const [ normalLineItem, recordObj ] of Object.entries(normalLineItemRecordObjMap)) {
-        if (normalLineItem in dstRecordNormalNameIdMap) {
-            const dstRecordID = dstRecordNormalNameIdMap[normalLineItem];
-            dstUpdateRecords.push({
-                id: dstRecordID,
-                fields: {
-                    [DST_LINK_FLD.id]: recordObj.records,
-                },
-            });
-        }
-    }
-
     await batchUpdate(dstUpdateRecords);
 }
 

@@ -1,0 +1,6 @@
+﻿ID,Name,Prize,Prize_form_URL,Keyframe,Keyframe_desc
+1,Alice,1,https://airtable.com/shrAo8h8jR0A6yWkx?prefill_Attendee=1&hide_Attendee=true,1,Add attendance
+2,Bobby,"2,3",https://airtable.com/shrAo8h8jR0A6yWkx?prefill_Attendee=2&hide_Attendee=true,1,Add attendance
+3,Camille,4,https://airtable.com/shrAo8h8jR0A6yWkx?prefill_Attendee=3&hide_Attendee=true,1,Add attendance
+4,Davie,5,https://airtable.com/shrAo8h8jR0A6yWkx?prefill_Attendee=4&hide_Attendee=true,1,Add attendance
+5,Erin,"6,7",https://airtable.com/shrAo8h8jR0A6yWkx?prefill_Attendee=5&hide_Attendee=true,1,Add attendance

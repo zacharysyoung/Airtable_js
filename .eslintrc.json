@@ -1,72 +1,68 @@
+// https://github.com/zacharysyoung/Airtable_js/blob/main/.eslintrc.json
 {
     "root": true,
     "env": {
-        "browser": true,
         "es2021": true,
-        "jest": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "google"
+    ],
     "parserOptions": {
-        "ecmaVersion": 13,
+        "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "rules": {
-        "array-bracket-spacing": [
-            "error",
-            "always"
-        ],
-        "comma-spacing": [
+        "camelcase": [
             "error",
             {
-                "before": false,
-                "after": true
+                "allow": [
+                    "^fld(.+)?_",
+                    "^tbl(.+)?_"
+                ]
             }
-        ],
-        "eol-last": [
-            "error",
-            "always"
         ],
         "indent": [
             "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "no-multiple-empty-lines": [
-            "error",
+            4,
             {
-                "max": 2,
-                "maxEOF": 0
+                "SwitchCase": 1
             }
         ],
-        "comma-dangle": [
-            "error",
-            "always-multiline"
-        ],
-        "no-trailing-spaces": [
+        "line-comment-position": [
             "error",
             {
-                "ignoreComments": false
+                "position": "above"
+            }
+        ],
+        "max-len": [
+            "error",
+            {
+                "code": 120,
+                "ignoreComments": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true
             }
         ],
         "object-curly-spacing": [
             "error",
             "always"
         ],
-        "quote-props": [
+        "no-multiple-empty-lines": [
             "error",
-            "consistent-as-needed"
+            {
+                "max": 1
+            }
         ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
+        "semi": "error",
+        "spaced-comment": [
             "error",
             "always"
-        ]
+        ],
+        "space-infix-ops": [
+            "error"
+        ],
+        "space-in-parens": "error"
     }
 }

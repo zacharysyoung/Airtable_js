@@ -1,0 +1,8 @@
+﻿ID,Attendee,Name,Mail_addr,Keyframe,Keyframe_desc
+1,1,Alice,123 Main St Anytown DE,2,First batch of claims
+2,2,Bobby,456 2nd Ave Sometown AK,2,First batch of claims
+3,2,Cedric (Bobby's son),456 2nd Ave Sometown AK,2,First batch of claims
+4,3,camille,987 Third Pl Another City MN,2,First batch of claims
+5,4,Davie,555 Fourth Ct Fooville CA,3,Davie's claim
+6,5,Erin,432 Rosa Parks Dr Barnone SD,4,Erin's 1st claim
+7,5,Erin,432 Rosa Parks Dr Barnone SD,5,Erin's 2nd claim
